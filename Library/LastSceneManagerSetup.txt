@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/WorkBench/Kuno/PlayerTest.unity
+- path: Assets/Scenes/WorkBench/Suzuki/SandBox.unity
   isLoaded: 1
   isActive: 1
