@@ -6,12 +6,17 @@ public class PlayerMove : PlayableBase {
 
 	private Rigidbody2D rig_;
 
-	public float spd_horizontalMove;
-	public float spd_varticalMove;
-
-	public int num_maxJumpCharge;
+	//縦横の移動量
+	[SerializeField]
+	float spd_horizontalMove;
+	[SerializeField]
+	float spd_varticalMove;
+	//ためジャンプを何フレームまで有効にするか
+	[SerializeField]
+	int num_maxJumpCharge;
 	int cnt_jumpCharge;
 
+	//各ステート用スプライト
 	[SerializeField]
 	Sprite spr_ground;
 	[SerializeField]
@@ -20,6 +25,19 @@ public class PlayerMove : PlayableBase {
 	Sprite spr_shot;
 
 	SpriteRenderer spr_;
+
+	//ネモ
+	[SerializeField]
+	GameObject obj_shot;
+	[SerializeField]
+	GameObject obj_carry;
+	SpriteRenderer spr_carry;
+
+	Sprite spr_nemo;
+
+	bool flg_shot;
+	int cnt_shot;
+	int num_shotMotion = 20;
 
 	enum Status{
 		neutoral,
@@ -37,6 +55,8 @@ public class PlayerMove : PlayableBase {
 		spr_ = GetComponent<SpriteRenderer>();
 		rig_ = GetComponent<Rigidbody2D> ();
 
+		spr_carry = obj_carry.GetComponent<SpriteRenderer> ();
+
 	}
 
 	public void Update(){
@@ -47,10 +67,28 @@ public class PlayerMove : PlayableBase {
 			ChargeJump ();
 			break;
 		}
+
+		if (Input.GetKeyDown (KeyCode.DownArrow) && spr_carry.enabled) {
+			Instantiate (obj_shot,transform.position,Quaternion.identity);
+			flg_shot = true;
+			spr_carry.enabled = false;
+		}
+
+		if (flg_shot) {
+			cnt_shot++;
+			spr_.sprite = spr_shot;
+
+			if (cnt_shot > num_shotMotion) {
+				cnt_shot = 0;
+				flg_shot = false;
+			}
+		}
 	}
 
 	protected override void GroundMove (){
-		spr_.sprite = spr_ground;
+		if (!flg_shot) {
+			spr_.sprite = spr_ground;
+		}
 
 		if(Input.GetKeyDown(KeyCode.UpArrow)){
 			enu_status = Status.jump;
@@ -59,7 +97,9 @@ public class PlayerMove : PlayableBase {
 	}
 
 	protected override void AirMove (){
-		spr_.sprite = spr_air;
+		if (!flg_shot) {
+			spr_.sprite = spr_air;
+		}
 
 		if (Input.GetKey (KeyCode.RightArrow)) {
 			rig_.AddForce (new Vector2(spd_horizontalMove, 0));
@@ -85,5 +125,13 @@ public class PlayerMove : PlayableBase {
 		}
 	}
 
+	void OnTriggerEnter2D(Collider2D col){
+		Debug.Log (col.gameObject.tag);
+		if (col.gameObject.tag != "Nemo")
+			return;
+
+		spr_carry.enabled = true;
+		GameObject.Destroy (col.gameObject);
+	}
 
 }

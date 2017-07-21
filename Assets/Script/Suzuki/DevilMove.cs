@@ -48,7 +48,7 @@ public class DevilMove : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if(coll.gameObject.tag == "inu"&&tgl_fall==false)
+        if(coll.gameObject.tag == "Player"&&tgl_fall==false)
         {
             Debug.Log("落ちるよ");
             StartCoroutine(Fall());

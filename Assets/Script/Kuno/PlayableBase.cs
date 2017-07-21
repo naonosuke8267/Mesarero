@@ -40,14 +40,14 @@ public class PlayableBase : MonoBehaviour {
 		Vector3 baf_vec = new Vector3 (pos_pipot.x + num_size.x / 2,pos_pipot.y,0);
 		Debug.DrawRay (baf_vec,arg_direction * num_size.y / 2,Color.magenta,0.01f);
 
-		int layerMask = 1 << LayerMask.NameToLayer ("Default");
-		if (Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 2 + 0.1f,layerMask)){
+		int layerMask = 1 << LayerMask.NameToLayer ("Ground");
+		if (Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f,layerMask)){
 			return true;
 		}
 
 		baf_vec = new Vector3 (pos_pipot.x - num_size.x / 2,pos_pipot.y,0);
 		Debug.DrawRay (baf_vec,arg_direction * num_size.y / 2,Color.magenta,0.01f);
-		if (Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 2 + 0.1f,layerMask)){
+		if (Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f,layerMask)){
 			return true;
 		}
 
