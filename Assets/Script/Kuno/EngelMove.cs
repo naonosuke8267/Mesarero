@@ -15,13 +15,13 @@ public class EngelMove : MonoBehaviour {
 
 	private int tgl_direction = 1;
 
-	private SpriteRenderer spr_;
+	//private SpriteRenderer spr_;
 	private Vector3 pos_;
 	private Rigidbody2D rig_;
 
 	// Use this for initialization
 	void Start () {
-		spr_ = GetComponent<SpriteRenderer> ();
+		//spr_ = GetComponent<SpriteRenderer> ();
 		pos_ = transform.position;
 		rig_ = GetComponent<Rigidbody2D> ();
 	}
