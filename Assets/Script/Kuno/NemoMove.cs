@@ -19,6 +19,7 @@ public class NemoMove : PlayableBase {
 	//各コンポーネント
 	SpriteRenderer spr_;
 	Rigidbody2D rig_;
+	BoxCollider2D col_;
 	[SerializeField]
 	BoxCollider2D box_col;
 	[SerializeField]
@@ -31,6 +32,7 @@ public class NemoMove : PlayableBase {
 		base.Start ();
 		spr_ = GetComponent<SpriteRenderer> ();
 		rig_ = GetComponent<Rigidbody2D> ();
+		col_ = GetComponent<BoxCollider2D> ();
 
 		box_col.enabled = false;
 		box_tri.enabled = false;
@@ -47,6 +49,7 @@ public class NemoMove : PlayableBase {
 		} else {
 			cnt_enableCollision--;
 		}
+			
 	}
 
 	protected override void AirMove (){
@@ -58,11 +61,19 @@ public class NemoMove : PlayableBase {
 		rig_.velocity = new Vector2 (0,rig_.velocity.y);
 
 		rig_.constraints = RigidbodyConstraints2D.None;
+
+		if (rig_.velocity.y > 0) {
+			gameObject.layer = LayerMask.NameToLayer ("UperNemo");
+			flg_CollisionActive = false;
+		} else {
+			gameObject.layer = LayerMask.NameToLayer ("DownerNemo");
+			flg_CollisionActive = true;
+		}
 	}
 
 	protected override void GroundMove (){
 		base.GroundMove ();
-
+		gameObject.layer = LayerMask.NameToLayer ("DownerNemo");
 		spr_.sprite = spr_ground;
 		transform.rotation = Quaternion.identity;
 		rig_.constraints = RigidbodyConstraints2D.FreezeRotation;

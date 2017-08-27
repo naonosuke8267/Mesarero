@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerMove : PlayableBase {
 
+	//各コンポーネント取得
 	private Rigidbody2D rig_;
+	private BoxCollider2D col_;
 
 	//縦横の移動量
 	[SerializeField]
@@ -56,28 +58,31 @@ public class PlayerMove : PlayableBase {
 		rig_ = GetComponent<Rigidbody2D> ();
 
 		spr_carry = obj_carry.GetComponent<SpriteRenderer> ();
-
+		col_ = GetComponent<BoxCollider2D> ();
 	}
 
 	public void Update(){
 		base.Update ();
 
+		//ステータス遷移
 		switch (enu_status) {
+		//		ジャンプ
 		case Status.jump:
 			ChargeJump ();
 			break;
 		}
 
+		//ネモを持ってる状態で↓キーで射出
 		if (Input.GetKeyDown (KeyCode.DownArrow) && spr_carry.enabled) {
 			Instantiate (obj_shot,transform.position,Quaternion.identity);
 			flg_shot = true;
 			spr_carry.enabled = false;
 		}
 
+		//射出後一定時間は投げモーションを取る
 		if (flg_shot) {
 			cnt_shot++;
 			spr_.sprite = spr_shot;
-
 			if (cnt_shot > num_shotMotion) {
 				cnt_shot = 0;
 				flg_shot = false;
@@ -87,6 +92,8 @@ public class PlayerMove : PlayableBase {
 
 	protected override void GroundMove (){
 		base.GroundMove ();
+		gameObject.layer = LayerMask.NameToLayer ("DownerDog");
+		flg_CollisionActive = true;
 
 		if (!flg_shot) {
 			spr_.sprite = spr_ground;
@@ -96,6 +103,8 @@ public class PlayerMove : PlayableBase {
 			enu_status = Status.jump;
 			rig_.velocity = new Vector2(0,0);
 		}
+
+
 	}
 
 	protected override void AirMove (){
@@ -111,6 +120,14 @@ public class PlayerMove : PlayableBase {
 			rig_.AddForce (new Vector2(-spd_horizontalMove, 0));
 		} else {
 			rig_.velocity = new Vector2 (0,rig_.velocity.y);
+		}
+
+		if (rig_.velocity.y > 0) {
+			gameObject.layer = LayerMask.NameToLayer ("UperDog");
+			flg_CollisionActive = false;
+		} else {
+			gameObject.layer = LayerMask.NameToLayer ("DownerDog");
+			flg_CollisionActive = true;
 		}
 	}
 

@@ -6,22 +6,22 @@ public class EngelMove : MonoBehaviour {
 
 	public AnimationCurve cur_move;
 
-	[Range(1,100)]
+	[Range(0,5)]
 	public float num_radius;
 
-	[Range(1,100)]
+	[Range(1,500)]
 	public float num_Reatch;
 	public float cnt_Reatch;
 
 	private int tgl_direction = 1;
-	private Vector2 pos_init;
+	protected Vector2 pos_init;
 
 	//private SpriteRenderer spr_;
 	private Vector3 pos_;
-	private Rigidbody2D rig_;
+	protected Rigidbody2D rig_;
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		//spr_ = GetComponent<SpriteRenderer> ();
 		pos_ = transform.position;
 		rig_ = GetComponent<Rigidbody2D> ();
@@ -29,7 +29,7 @@ public class EngelMove : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
 
 		cnt_Reatch++;
 		if (cnt_Reatch != 0) {
