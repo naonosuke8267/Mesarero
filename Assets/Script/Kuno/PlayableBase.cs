@@ -10,6 +10,9 @@ public class PlayableBase : MonoBehaviour {
 	Vector3 pos_pipot;
 	Vector2 num_size;
 
+	public PhysicsMaterial2D phy_air;
+	public PhysicsMaterial2D phy_gro;
+
 
 	// Use this for initialization
 	protected void Start () {
@@ -55,8 +58,10 @@ public class PlayableBase : MonoBehaviour {
 	}
 
 	protected virtual void GroundMove(){
+		GetComponent<Rigidbody2D> ().sharedMaterial = phy_gro;
 	}
 
 	protected virtual void AirMove(){
+		GetComponent<Rigidbody2D> ().sharedMaterial = phy_air;
 	}
 }

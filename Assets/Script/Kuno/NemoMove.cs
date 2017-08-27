@@ -50,14 +50,21 @@ public class NemoMove : PlayableBase {
 	}
 
 	protected override void AirMove (){
+		base.AirMove ();
+
 		spr_.sprite = spr_air;
 		transform.eulerAngles += new Vector3 (0,0,spd_rotate);
 
 		rig_.velocity = new Vector2 (0,rig_.velocity.y);
+
+		rig_.constraints = RigidbodyConstraints2D.None;
 	}
 
 	protected override void GroundMove (){
+		base.GroundMove ();
+
 		spr_.sprite = spr_ground;
 		transform.rotation = Quaternion.identity;
+		rig_.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}
 }

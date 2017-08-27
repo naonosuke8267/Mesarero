@@ -86,6 +86,8 @@ public class PlayerMove : PlayableBase {
 	}
 
 	protected override void GroundMove (){
+		base.GroundMove ();
+
 		if (!flg_shot) {
 			spr_.sprite = spr_ground;
 		}
@@ -97,6 +99,8 @@ public class PlayerMove : PlayableBase {
 	}
 
 	protected override void AirMove (){
+		base.AirMove ();
+
 		if (!flg_shot) {
 			spr_.sprite = spr_air;
 		}
@@ -126,7 +130,6 @@ public class PlayerMove : PlayableBase {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		Debug.Log (col.gameObject.tag);
 		if (col.gameObject.tag != "Nemo")
 			return;
 

@@ -11,9 +11,10 @@ public class EngelMove : MonoBehaviour {
 
 	[Range(1,100)]
 	public float num_Reatch;
-	private float cnt_Reatch;
+	public float cnt_Reatch;
 
 	private int tgl_direction = 1;
+	private Vector2 pos_init;
 
 	//private SpriteRenderer spr_;
 	private Vector3 pos_;
@@ -24,6 +25,7 @@ public class EngelMove : MonoBehaviour {
 		//spr_ = GetComponent<SpriteRenderer> ();
 		pos_ = transform.position;
 		rig_ = GetComponent<Rigidbody2D> ();
+		pos_init = transform.position;
 	}
 	
 	// Update is called once per frame
@@ -31,13 +33,9 @@ public class EngelMove : MonoBehaviour {
 
 		cnt_Reatch++;
 		if (cnt_Reatch != 0) {
-			rig_.velocity = new Vector2 (
-				tgl_direction * (cur_move.Evaluate (Mathf.PingPong (cnt_Reatch / num_Reatch, 1)) * num_radius),
-			0);
-		}
-
-		if(cnt_Reatch % num_Reatch == 0){
-			tgl_direction *= -1;
+			rig_.MovePosition(new Vector2 (
+				pos_init.x + (cur_move.Evaluate (Mathf.PingPong (cnt_Reatch / num_Reatch, 1)) * num_radius),
+				pos_init.y + 0));
 		}
 	}
 }
