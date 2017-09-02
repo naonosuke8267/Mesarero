@@ -133,7 +133,7 @@ public class PlayerMove : PlayableBase {
 
 	void ChargeJump(){
 		if (Input.GetKey (KeyCode.UpArrow)) {
-			rig_.AddForce (new Vector2 (0, -spd_varticalMove));
+			rig_.velocity = new Vector2 (rig_.velocity.x, -spd_varticalMove);
 			cnt_jumpCharge++;
 
 			if (cnt_jumpCharge > num_maxJumpCharge) {

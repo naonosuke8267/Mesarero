@@ -46,15 +46,29 @@ public class PlayableBase : MonoBehaviour {
 			Debug.DrawRay (baf_vec, arg_direction * num_size.y / 2, Color.magenta, 0.01f);
 
 			int layerMask = 1 << LayerMask.NameToLayer ("Ground");
-			if (Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f, layerMask)) {
+
+			RaycastHit2D baf_ray;
+			PlayableBase baf_playable;
+			if (baf_ray = Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f, layerMask)) {
+
+				//PlayableBaseの上に着地したら、そのオブジェクトのRaycastHit関数を起動する
+				if (baf_ray.transform.gameObject.GetComponent<PlayableBase> () != null) {
+					baf_playable = baf_ray.transform.gameObject.GetComponent<PlayableBase> ();
+					baf_playable.RaycastHit ();
+				}
 				return true;
 			}
 
 			baf_vec = new Vector3 (pos_pipot.x - num_size.x / 2, pos_pipot.y, 0);
 			Debug.DrawRay (baf_vec, arg_direction * num_size.y / 2, Color.magenta, 0.01f);
-			if (Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f, layerMask)) {
+			if (baf_ray = Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f, layerMask)) {
+				if (baf_ray.transform.gameObject.GetComponent<PlayableBase> () != null) {
+					baf_playable = baf_ray.transform.gameObject.GetComponent<PlayableBase> ();
+					baf_playable.RaycastHit ();
+				}
 				return true;
 			}
+				
 
 			return false;
 		}
@@ -68,5 +82,8 @@ public class PlayableBase : MonoBehaviour {
 
 	protected virtual void AirMove(){
 		GetComponent<Rigidbody2D> ().sharedMaterial = phy_air;
+	}
+
+	protected virtual void RaycastHit(){
 	}
 }

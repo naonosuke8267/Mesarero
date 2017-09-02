@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EngelMove : MonoBehaviour {
+public class EngelMove : PlayableBase {
 
 	public AnimationCurve cur_move;
 
@@ -38,4 +38,6 @@ public class EngelMove : MonoBehaviour {
 				pos_init.y + 0));
 		}
 	}
+
+
 }
