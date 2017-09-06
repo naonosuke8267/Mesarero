@@ -20,6 +20,9 @@ public class EngelMove : PlayableBase {
 	private Vector3 pos_;
 	protected Rigidbody2D rig_;
 
+	float cnt_down = 0;
+	bool flg_down = false;
+
 	// Use this for initialization
 	public void Start () {
 		//spr_ = GetComponent<SpriteRenderer> ();
@@ -39,5 +42,21 @@ public class EngelMove : PlayableBase {
 		}
 	}
 
+	IEnumerator Down(){
+		yield return new WaitForSeconds (1.0f);
 
+		while (true) {
+			cnt_down += 0.0005f;
+			rig_.MovePosition (new Vector2 (transform.position.x, transform.position.y - cnt_down));
+
+			yield return null;
+		}
+	}
+
+	protected override void RaycastHit (){
+		if (!flg_down) {
+			StartCoroutine (Down ());
+			flg_down = true;
+		}
+	}
 }

@@ -6,7 +6,7 @@ public class CameraMove : MonoBehaviour {
 
 	public GameObject obj_player;
 
-	public Vector3 pos_;
+	public float pos_playerY;
 
 	// Use this for initialization
 	void Start () {
@@ -15,8 +15,7 @@ public class CameraMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		pos_ = transform.position;
-
+		pos_playerY = Mathf.Clamp(obj_player.transform.position.y,pos_playerY,float.MaxValue);
 
 		transform.position = new Vector3 (
 			transform.position.x,
