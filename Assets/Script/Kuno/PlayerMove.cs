@@ -73,7 +73,7 @@ public class PlayerMove : PlayableBase {
 		}
 
 		//ネモを持ってる状態で↓キーで射出
-		if (Input.GetKeyDown (KeyCode.DownArrow) && spr_carry.enabled) {
+		if (Input.GetKeyDown (KeyCode.UpArrow) && spr_carry.enabled) {
 			Instantiate (obj_shot,transform.position,Quaternion.identity);
 			flg_shot = true;
 			spr_carry.enabled = false;
@@ -99,7 +99,7 @@ public class PlayerMove : PlayableBase {
 			spr_.sprite = spr_ground;
 		}
 
-		if(Input.GetKeyDown(KeyCode.UpArrow)){
+		if(Input.GetKeyDown(KeyCode.Space)){
 			enu_status = Status.jump;
 			rig_.velocity = new Vector2(0,0);
 		}
@@ -132,7 +132,7 @@ public class PlayerMove : PlayableBase {
 	}
 
 	void ChargeJump(){
-		if (Input.GetKey (KeyCode.UpArrow)) {
+		if (Input.GetKey(KeyCode.Space)) {
 			rig_.velocity = new Vector2 (rig_.velocity.x, -spd_varticalMove);
 			cnt_jumpCharge++;
 

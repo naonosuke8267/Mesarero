@@ -15,13 +15,12 @@ public class CameraMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		pos_playerY = obj_player.transform.position.y;
+		pos_playerY = transform.position.y;
 
 		transform.position = new Vector3 (
 			transform.position.x,
 			Mathf.Clamp(obj_player.transform.position.y,pos_playerY,float.MaxValue),
 			-10
-
 		);
 
 
