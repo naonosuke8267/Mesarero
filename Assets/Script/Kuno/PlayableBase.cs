@@ -15,6 +15,10 @@ public class PlayableBase : MonoBehaviour {
 
 	protected bool flg_CollisionActive = true;
 
+	private bool flg_hit;
+
+	public PlayableBase scr_playableBase;
+
 	// Use this for initialization
 	protected void Start () {
 		//サイズの取得
@@ -48,13 +52,16 @@ public class PlayableBase : MonoBehaviour {
 			int layerMask = 1 << LayerMask.NameToLayer ("Ground");
 
 			RaycastHit2D baf_ray;
-			PlayableBase baf_playable;
+			//PlayableBase baf_playable;
 			if (baf_ray = Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f, layerMask)) {
 
 				//PlayableBaseの上に着地したら、そのオブジェクトのRaycastHit関数を起動する
 				if (baf_ray.transform.gameObject.GetComponent<PlayableBase> () != null) {
-					baf_playable = baf_ray.transform.gameObject.GetComponent<PlayableBase> ();
-					baf_playable.RaycastHit ();
+					scr_playableBase = baf_ray.transform.gameObject.GetComponent<PlayableBase> ();
+					if(!flg_hit){
+						flg_hit = true;
+					}
+					scr_playableBase.RaycastHit ();
 				}
 				return true;
 			}
@@ -63,13 +70,20 @@ public class PlayableBase : MonoBehaviour {
 			Debug.DrawRay (baf_vec, arg_direction * num_size.y / 2, Color.magenta, 0.01f);
 			if (baf_ray = Physics2D.Raycast (baf_vec, arg_direction, num_size.y / 1.5f, layerMask)) {
 				if (baf_ray.transform.gameObject.GetComponent<PlayableBase> () != null) {
-					baf_playable = baf_ray.transform.gameObject.GetComponent<PlayableBase> ();
-					baf_playable.RaycastHit ();
+					scr_playableBase = baf_ray.transform.gameObject.GetComponent<PlayableBase> ();
+					if(!flg_hit){
+						flg_hit = true;
+					}
+					scr_playableBase.RaycastHit ();
 				}
 				return true;
 			}
 				
-
+			if(flg_hit){
+				flg_hit = false;
+				scr_playableBase.RaycastExit ();
+				scr_playableBase = null;
+			}
 			return false;
 		}
 
@@ -85,5 +99,7 @@ public class PlayableBase : MonoBehaviour {
 	}
 
 	protected virtual void RaycastHit(){
+	}
+	protected virtual void RaycastExit(){
 	}
 }

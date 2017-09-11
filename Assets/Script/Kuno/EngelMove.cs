@@ -45,10 +45,9 @@ public class EngelMove : PlayableBase {
 	IEnumerator Down(){
 		yield return new WaitForSeconds (1.0f);
 
-		while (true) {
+		while (flg_down) {
 			cnt_down += 0.0005f;
 			rig_.MovePosition (new Vector2 (transform.position.x, transform.position.y - cnt_down));
-
 			yield return null;
 		}
 	}
@@ -57,6 +56,16 @@ public class EngelMove : PlayableBase {
 		if (!flg_down) {
 			StartCoroutine (Down ());
 			flg_down = true;
+		}
+	}
+
+	protected override void RaycastExit ()
+	{
+		if (flg_down) {
+			StopCoroutine ("Down");
+			flg_down = false;
+			pos_init = transform.position;
+			cnt_down = 0;
 		}
 	}
 }
