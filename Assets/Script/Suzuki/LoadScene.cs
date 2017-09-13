@@ -9,7 +9,7 @@ public class LoadScene : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            SceneManager.LoadScene("Main");
+            SceneManager.LoadScene("Stage1");
         }
 
     }
